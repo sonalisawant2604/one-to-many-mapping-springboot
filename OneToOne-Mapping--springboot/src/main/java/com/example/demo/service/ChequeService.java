@@ -9,11 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
+import com.example.demo.entity.Benifishiory;
 import com.example.demo.entity.Customerdata;
+import com.example.demo.entity.Login;
+import com.example.demo.repository.BenifishioryRepository;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.LoginRepository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,20 +30,23 @@ public class ChequeService
         {
     @Autowired
     private CustomerRepository customerRepository;
-
-
-    List<Customerdata> customers=new ArrayList<>();
+    @Autowired
+    private LoginRepository loginRepository;
+    
+    @Autowired
+    private BenifishioryRepository benifishioryRepository;
+    
     public List<Customerdata> getAllCustomer() {
         List<Customerdata> customers = new ArrayList<>();
         customerRepository.findAll().forEach(customer -> customers.add(customer));
         return customers;
     }
 
-    public Optional<Customerdata> getCustomerById(int id) {
+    public Optional<Login> getCustomerByName(String name) {
     
        // log.info("inside service");
        // log.info("getting customer data");
-        return this.customerRepository.findById(id);
+        return loginRepository.findByUsername(name);
     }
 
     public void addCustomer(Customerdata customer) {
@@ -66,9 +75,50 @@ public class ChequeService
        // return null;
     }*/
 
-    public void deleteCustomerById(int cust_id, Customerdata customer) {
-        customerRepository.deleteById(cust_id);
+    public void deleteCustomerById(long id, Customerdata customer) {
+        customerRepository.deleteById(id);
     }
+
+	public void betweenAccountsTransfer(String transferFrom, String transferTo, String amount, Customerdata customer,
+			Benifishiory benifishiory) {
+		//public void betweenAccountsTransfer(String transferFrom, String transferTo, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception {
+	        if (transferFrom.equalsIgnoreCase("customer") && transferTo.equalsIgnoreCase("benifishiory"))
+	        {
+	            customer.setBalance(customer.getBalance().subtract(new BigDecimal(amount)));
+	           // savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().add(new BigDecimal(amount)));
+	            benifishiory.setBalance(benifishiory.getBalance().add(new BigDecimal(amount)));
+	           // primaryAccountDao.save(primaryAccount);
+	            //savingsAccountDao.save(savingsAccount);
+	            customerRepository.save(customer);
+	            benifishioryRepository.save(benifishiory);
+	        }
+
+			/*
+			 * Date date = new Date();
+			 * 
+			 * PrimaryTransaction primaryTransaction = new PrimaryTransaction(date,
+			 * "Between account transfer from "+transferFrom+" to "+transferTo, "Account",
+			 * "Finished", Double.parseDouble(amount), primaryAccount.getAccountBalance(),
+			 * primaryAccount); primaryTransactionDao.save(primaryTransaction); } else if
+			 * (transferFrom.equalsIgnoreCase("Savings") &&
+			 * transferTo.equalsIgnoreCase("Primary")) {
+			 * primaryAccount.setAccountBalance(primaryAccount.getAccountBalance().add(new
+			 * BigDecimal(amount)));
+			 * savingsAccount.setAccountBalance(savingsAccount.getAccountBalance().subtract(
+			 * new BigDecimal(amount))); primaryAccountDao.save(primaryAccount);
+			 * savingsAccountDao.save(savingsAccount);
+			 * 
+			 * Date date = new Date();
+			 * 
+			 * SavingsTransaction savingsTransaction = new SavingsTransaction(date,
+			 * "Between account transfer from "+transferFrom+" to "+transferTo, "Transfer",
+			 * "Finished", Double.parseDouble(amount), savingsAccount.getAccountBalance(),
+			 * savingsAccount); savingsTransactionDao.save(savingsTransaction); } else {
+			 * throw new Exception("Invalid Transfer"); }
+			 */
+	    }
+
+	}
 
 
 	/*
@@ -95,5 +145,5 @@ public class ChequeService
 
                         });
             }*/
-        }
+        
 

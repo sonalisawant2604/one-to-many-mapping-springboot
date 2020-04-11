@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,18 +14,18 @@ public class Benifishiory {
    
     @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  int bene_id;
+    private  long bene_id;
     private String benefishiory_account_no;
     private String name;
-    private  int balance;
+    private BigDecimal balance;
     
     @ManyToOne()
     private Customerdata customerdata;
 
-    public int getBene_id() {
+    public long getBene_id() {
 	return bene_id;
     }
-    public void setBene_id(int bene_id) {
+    public void setBene_id(long bene_id) {
 	this.bene_id = bene_id;
     }
     public String getBenefishiory_account_no() {
@@ -38,10 +40,10 @@ public class Benifishiory {
     public void setName(String name) {
 	this.name = name;
     }
-    public int getBalance() {
+    public BigDecimal getBalance() {
 	return balance;
     }
-    public void setBalance(int balance) {
+    public void setBalance(BigDecimal balance) {
 	this.balance = balance;
     }
     public Customerdata getCustomerdata() {

@@ -2,18 +2,23 @@ package com.example.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.CustomerDetails;
+import com.example.demo.entity.Benifishiory;
 import com.example.demo.entity.Customerdata;
+import com.example.demo.entity.Login;
 import com.example.demo.repository.BenifishioryRepository;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.LoginRepository;
 import com.example.demo.service.ChequeService;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.Optional;
 //@CrossOrigin(origins = "http://localhost:4200",maxAge=3600)
 @RestController
@@ -22,14 +27,20 @@ import java.util.Optional;
 public class ChequeController {
 	@Autowired
 	CustomerRepository CustomerRepository;
-	
+	@Autowired
+	LoginRepository loginRepository;
+	@Autowired
+	ChequeService chequeService;
 	@Autowired
 	BenifishioryRepository benifishioryRepository;
     @PostMapping("/submitCustomer")
-    public Customerdata addCustomer(@RequestBody CustomerDetails customer) 
+    public Login addCustomer(@RequestBody CustomerDetails customer) 
     {
-        return CustomerRepository.save(customer.getCustomerdata());
+        return loginRepository.save(customer.getLogin());
     }
+	
+	
+}
 
 	/*
 	 * @PostMapping("/submitCustomer/{id}/PrimaryAccount") public PrimaryAccount
@@ -37,7 +48,7 @@ public class ChequeController {
 	 * primaryaccount) { return
 	 * chequeService.addPrimaryAccount(cust_id,primaryaccount); }
 	 */
-}
+
 
 /*
  * @DeleteMapping("/deleteCustomerById/{cust_id}") public void
@@ -80,28 +91,6 @@ public class ChequeController {
         chequeService.deposite(customer,id);
     }
 */
-   /* @RequestMapping(value = "/betweenAccounts", method = RequestMethod.GET)
-    public String betweenAccounts(Model model) {
-        model.addAttribute("transferFrom", "");
-        model.addAttribute("transferTo", "");
-        model.addAttribute("amount", "");
-
-        return "betweenAccounts";
-    }
-
-    @RequestMapping(value = "/betweenAccounts", method = RequestMethod.POST)
-    public String betweenAccountsPost(@ModelAttribute("transferFrom") String transferFrom,
-                                      @ModelAttribute("transferTo") String transferTo, @ModelAttribute("amount") String amount,
-                                      Principal principal) throws Exception {
-        Customer_data user = userService.findByAccountnumber(principal.getName());
-        PrimaryAccount primaryAccount = user.getPrimaryAccount();
-        SavingsAccount savingsAccount = user.getSavingsAccount();
-        transactionService.betweenAccountsTransfer(transferFrom, transferTo, amount, primaryAccount, savingsAccount);
-
-        return "redirect:/userFront";
-    }*/
-
-
-
+   
 
 

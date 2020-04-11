@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.demo.entity.Benifishiory;
 
 @Repository
-public interface BenifishioryRepository extends JpaRepository<Benifishiory, Integer> {
+public interface BenifishioryRepository extends JpaRepository<Benifishiory, Long> {
 
 }

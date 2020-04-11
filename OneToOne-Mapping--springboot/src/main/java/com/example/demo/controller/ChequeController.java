@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.dto.CustomerDetails;
 import com.example.demo.entity.Customerdata;
+import com.example.demo.repository.BenifishioryRepository;
+import com.example.demo.repository.CustomerRepository;
 import com.example.demo.service.ChequeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,46 +20,48 @@ import java.util.Optional;
 @Slf4j
 @RequestMapping("/Customer")
 public class ChequeController {
-    @Autowired
-    private ChequeService chequeService;
-   
-    @RequestMapping("/cheque")
-    public String sayHello() {
-        return "In Check transaction";
-
-    }
-    @GetMapping("/getAllCustomer")
-    public Iterable<Customerdata> getAllCustomer() {
-        return chequeService.getAllCustomer();
-    }
-
-
-    @GetMapping("/getCustomerById/{id}")
-    public Optional<Customerdata> getCustomer(@PathVariable int cust_id)
-    {
-       // log.info("inside controller");
-
-        return chequeService.getCustomerById(cust_id);
-    }
+	@Autowired
+	CustomerRepository CustomerRepository;
+	
+	@Autowired
+	BenifishioryRepository benifishioryRepository;
     @PostMapping("/submitCustomer")
-    public void addCustomer(@RequestBody Customerdata customer) {
-        chequeService.addCustomer(customer);
-    }
-
-    /*@PostMapping("/submitCustomer/{id}/PrimaryAccount")
-    public PrimaryAccount addPrimaryAccount(@PathVariable int cust_id,@RequestBody PrimaryAccount primaryaccount) {
-       return chequeService.addPrimaryAccount(cust_id,primaryaccount);
-    }*/
-
-    @DeleteMapping("/deleteCustomerById/{cust_id}")
-    public void deleteCustomer(@PathVariable int cust_id,Customerdata customer)
+    public Customerdata addCustomer(@RequestBody CustomerDetails customer) 
     {
-       // log.info("inside controller");
-
-        chequeService.deleteCustomerById(cust_id,customer);
+        return CustomerRepository.save(customer.getCustomerdata());
     }
 
+	/*
+	 * @PostMapping("/submitCustomer/{id}/PrimaryAccount") public PrimaryAccount
+	 * addPrimaryAccount(@PathVariable int cust_id,@RequestBody PrimaryAccount
+	 * primaryaccount) { return
+	 * chequeService.addPrimaryAccount(cust_id,primaryaccount); }
+	 */
+}
 
+/*
+ * @DeleteMapping("/deleteCustomerById/{cust_id}") public void
+ * deleteCustomer(@PathVariable int cust_id,Customerdata customer) { //
+ * log.info("inside controller");
+ * 
+ * chequeService.deleteCustomerById(cust_id,customer); }
+ */
+
+    /*
+	 * @Autowired private ChequeService chequeService;
+	 * 
+	 */
+	/*
+	 * @GetMapping("/getAllCustomer") public Iterable<Customerdata> getAllCustomer()
+	 * { return chequeService.getAllCustomer(); }
+	 */
+
+	/*
+	 * @GetMapping("/getCustomerById/{id}") public Optional<Customerdata>
+	 * getCustomer(@PathVariable int cust_id) { // log.info("inside controller");
+	 * 
+	 * return chequeService.getCustomerById(cust_id); }
+	 */
     /*@PutMapping("/updateCustomer/{cust_id}")
 
     public Customerdata updateCustomer(@RequestBody Customerdata customer,@PathVariable  int cust_id) { return
@@ -95,7 +100,7 @@ public class ChequeController {
 
         return "redirect:/userFront";
     }*/
-}
+
 
 
 

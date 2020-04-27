@@ -14,52 +14,51 @@ public class Benifishiory {
    
     @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  long bene_id;
-    private String benefishiory_account_no;
-    private String name;
-    private BigDecimal balance;
-    
+    private Long id;
+    private String fullName;
+    private double balance;
     @ManyToOne()
     private Customerdata customerdata;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getFullName() {
+		return fullName;
+	}
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+	public double getBalance() {
+		return balance;
+	}
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	public Customerdata getCustomerdata() {
+		return customerdata;
+	}
+	public void setCustomerdata(Customerdata customerdata) {
+		this.customerdata = customerdata;
+	}
+	@Override
+	public String toString() {
+		return "Benifishiory [id=" + id + ", fullName=" + fullName + ", balance=" + balance + ", customerdata="
+				+ customerdata + "]";
+	}
+	public Benifishiory(Long id, String fullName, double balance) {
+		super();
+		this.id = id;
+		this.fullName = fullName;
+		this.balance = balance;
+		
+	}
+	public Benifishiory() {
+		super();
+	}
 
-    public long getBene_id() {
-	return bene_id;
-    }
-    public void setBene_id(long bene_id) {
-	this.bene_id = bene_id;
-    }
-    public String getBenefishiory_account_no() {
-	return benefishiory_account_no;
-    }
-    public void setBenefishiory_account_no(String benefishiory_account_no) {
-	this.benefishiory_account_no = benefishiory_account_no;
-    }
-    public String getName() {
-	return name;
-    }
-    public void setName(String name) {
-	this.name = name;
-    }
-    public BigDecimal getBalance() {
-	return balance;
-    }
-    public void setBalance(BigDecimal balance) {
-	this.balance = balance;
-    }
-    public Customerdata getCustomerdata() {
-	return customerdata;
-    }
-    public void setCustomerdata(Customerdata customerdata) {
-	this.customerdata = customerdata;
-    }
-    @Override
-    public String toString() {
-	return "Benifishiory [bene_id=" + bene_id + ", benefishiory_account_no=" + benefishiory_account_no + ", name="
-			+ name + ", balance=" + balance + ", customerdata=" + customerdata + "]";
-    }
-    public Benifishiory() {
-	super();
-    }
-
+    
 
 }
